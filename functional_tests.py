@@ -21,10 +21,10 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.get('http://localhost:8000/nuty/')
         self.assertIn('AOPL', self.browser.title)
 
-        header_text = self.browser.find_element_by_tag_name('h1').text
+        header_text = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Nuty', header_text)
 
-        button = self.browser.find_element_by_tag_name('h2')
+        button = self.browser.find_element_by_tag_name('a')
         self.assertEqual('Dodaj nuty', button.text)
         self.assertEqual(button.get_attribute('href'), 'http://localhost:8000/nuty/dodaj/')
 
