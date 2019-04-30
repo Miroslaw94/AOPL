@@ -37,16 +37,17 @@ class NewVisitorTest(unittest.TestCase):
         self.assertEqual(name_input.get_attribute('placeholder'), 'Enter a title')
         name_input.send_keys('Muppets')
 
-        file_input = self.browser.find_element_by_name('file')
-        self.assertEqual(file_input.get_attribute('name'), 'violin')
+        file_input = self.browser.find_element_by_css_selector("input[type='file'][name='viola']")
+        self.assertEqual(file_input.get_attribute('name'), 'viola')
         file_input.send_keys('/Users/Miroslaw_Siwik/kodzenie/aopl/nuty_testowe.pdf')
-        file_input.submit()
+        self.browser.find_element_by_name('submit').click()
         time.sleep(1)
 
         self.browser.get('http://localhost:8000/nuty/')
-        post = self.browser.find_element_by_tag_name('a')
-        self.assertEqual(post.text, 'Muppets')
-        self.assertEqual(post.get_attribute('href'), 'http://localhost:8000/nuty/<int:pk>')
+        time.sleep(1)
+        posts = self.browser.find_elements_by_tag_name('a')
+        self.assertTrue(posts[1].text, 'Muppets')
+        self.assertEqual(posts[1].get_attribute('href'), 'http://localhost:8000/nuty/<int:pk>')
 
 
 if __name__ == '__main__':
