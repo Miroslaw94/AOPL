@@ -7,3 +7,6 @@ def home_page(request):
 
 def music_notes(request):
     return render(request, 'music_notes.html')
+
+def add_music_notes(request):
+    return render(request, 'add_music_notes.html')
