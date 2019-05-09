@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-<body>
-    {% extends 'home.html' %}
-        {% block content %}
-            <h2>Nuty</h2>
-            <a href="dodaj/">Dodaj nuty</a>
-            <a>Muppets</a>
-        {% endblock %}
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Nuty</h2>
+        <a href="dodaj/">Dodaj nuty</a>
+    <h4><a href="">{{ music_notes_files }}</a></h4>
+{% endblock %}

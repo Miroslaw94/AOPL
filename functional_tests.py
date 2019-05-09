@@ -43,8 +43,6 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.find_element_by_name('submit').click()
         time.sleep(1)
 
-        self.browser.get('http://localhost:8000/nuty/')
-        time.sleep(1)
         posts = self.browser.find_elements_by_tag_name('a')
         self.assertTrue(posts[1].text, 'Muppets')
         self.assertEqual(posts[1].get_attribute('href'), 'http://localhost:8000/nuty/<int:pk>')
