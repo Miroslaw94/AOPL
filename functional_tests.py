@@ -42,10 +42,14 @@ class NewVisitorTest(unittest.TestCase):
         file_input.send_keys('/Users/Miroslaw_Siwik/kodzenie/aopl/nuty_testowe.pdf')
         self.browser.find_element_by_name('submit').click()
         time.sleep(1)
-
+        '''
         posts = self.browser.find_elements_by_tag_name('a')
         self.assertTrue(posts[1].text, 'Muppets')
         self.assertEqual(posts[1].get_attribute('href'), 'http://localhost:8000/nuty/<int:pk>')
+        '''
+        posts = self.browser.find_element_by_class_name('list-group-item')
+        self.assertTrue(posts[0].text, 'Muppets')
+        self.assertEqual(posts[0].get_attribute('href'), 'http://localhost:8000/nuty/<int:pk>')
 
 
 if __name__ == '__main__':

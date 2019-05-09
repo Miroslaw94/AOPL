@@ -1,0 +1,14 @@
+.container-fluid {
+    background-color: #875250;
+    padding: 15px;
+}
+h1 {
+    color: #EED5B2;
+    text-align: center;
+    padding: 0px;
+    font-size: 36pt;
+    font-family: Marker Felt;
+}
+h2, a, .list-group, form {
+    padding: 0px 20px 20px 20px;
+}
