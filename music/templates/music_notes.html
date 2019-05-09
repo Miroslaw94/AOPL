@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
     <h2>Nuty</h2>
-        <a href="dodaj/">Dodaj nuty</a><br />
+
+    <form action="dodaj/">
+        <input type="submit" value="Dodaj nuty" />
+    </form>
+
     <div class="list-group">
         <a href="" class="list-group-item">{{ music_notes_files }}</a>
     </div>
+
 {% endblock %}

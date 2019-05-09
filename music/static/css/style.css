@@ -7,8 +7,30 @@ h1 {
     text-align: center;
     padding: 0px;
     font-size: 36pt;
-    font-family: Marker Felt;
+    font-family: 'Varela Round', sans-serif;
 }
-h2, a, .list-group, form {
-    padding: 0px 20px 20px 20px;
+h2, h3, h4, a, p, .list-group, form {
+    padding: 10px 40px 10px 40px;
+}
+h2, h3, h4 {
+    font-family: 'Lato', sans-serif;
+}
+a, p {
+    font-family: 'Raleway', sans-serif;
+}
+input[type=submit], input[type=file] {
+    background-color: white;
+    color: black;
+    border: 2px solid #bababa;
+    padding: 4px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+input[type=submit]:hover, input[type=file]:hover {
+    background-color: #e7e7e7;
 }
