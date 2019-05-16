@@ -6,3 +6,5 @@ __pycache__
 .idea
 geckodriver.log
 nuty_testowe.pdf
+uploads/
+music/migrations/

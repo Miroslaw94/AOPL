@@ -1,4 +1,5 @@
 from django.test import TestCase
+from music.models import MusicNotes
 
 
 class PageTest(TestCase):
@@ -19,3 +20,17 @@ class PageTest(TestCase):
         response = self.client.post('/nuty/dodaj/', data={'title': 'Muppets'})
         self.assertIn('Muppets', response.content.decode())
         self.assertTemplateUsed(response, 'music_notes.html')
+
+
+class MusicNotesModelTest(TestCase):
+
+    def test_saving_and_retrieving_items(self):
+        muppets = MusicNotes()
+        muppets.title = 'Muppets'
+        muppets.viola = '/Users/Miroslaw_Siwik/kodzenie/aopl/nuty_testowe.pdf'
+        muppets.save()
+
+        saved_notes = MusicNotes.objects.all()
+        self.assertEqual(saved_notes.count(), 1)
+        self.assertEqual(saved_notes[0].title, 'Muppets')
+        self.assertEqual(saved_notes[0].viola, '/Users/Miroslaw_Siwik/kodzenie/aopl/nuty_testowe.pdf')
