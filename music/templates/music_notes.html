@@ -9,7 +9,9 @@
     </form>
 
     <div class="list-group">
-        <a href="" class="list-group-item">{{ music_notes_files }}</a>
+        {% for music_notes in music_notes_list %}
+            <a href="" class="list-group-item">{{ music_notes.title }}</a>
+        {% endfor %}
     </div>
 
 {% endblock %}

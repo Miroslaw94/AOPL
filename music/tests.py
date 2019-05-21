@@ -17,9 +17,17 @@ class PageTest(TestCase):
         self.assertTemplateUsed(response, 'add_music_notes.html')
 
     def test_can_save_a_POST_request(self):
+        self.client.post('/nuty/dodaj/', data={'title': 'Muppets'})
+
+        self.assertEqual(MusicNotes.objects.count(), 1)
+        new_notes = MusicNotes.objects.first()
+        self.assertEqual(new_notes.title, 'Muppets')
+
+
+    def test_redirects_after_post(self):
         response = self.client.post('/nuty/dodaj/', data={'title': 'Muppets'})
-        self.assertIn('Muppets', response.content.decode())
-        self.assertTemplateUsed(response, 'music_notes.html')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/nuty/')
 
 
 class MusicNotesModelTest(TestCase):
