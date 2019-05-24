@@ -23,11 +23,19 @@ class PageTest(TestCase):
         new_notes = MusicNotes.objects.first()
         self.assertEqual(new_notes.title, 'Muppets')
 
-
     def test_redirects_after_post(self):
         response = self.client.post('/nuty/dodaj/', data={'title': 'Muppets'})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/nuty/')
+
+    def test_displays_all_list_items(self):
+        MusicNotes.objects.create(title='nr1')
+        MusicNotes.objects.create(title='nr2')
+
+        response = self.client.get('/nuty/')
+
+        self.assertIn('nr1', response.content.decode())
+        self.assertIn('nr2', response.content.decode())
 
 
 class MusicNotesModelTest(TestCase):
