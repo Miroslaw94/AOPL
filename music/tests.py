@@ -50,3 +50,7 @@ class MusicNotesModelTest(TestCase):
         self.assertEqual(saved_notes.count(), 1)
         self.assertEqual(saved_notes[0].title, 'Muppets')
         self.assertEqual(saved_notes[0].viola, '/Users/Miroslaw_Siwik/kodzenie/aopl/nuty_testowe.pdf')
+
+        response = self.client.get('/nuty/1/')
+        self.assertTemplateUsed(response, 'music_notes_details.html')
+        self.assertIn('Muppets', response.content.decode())
