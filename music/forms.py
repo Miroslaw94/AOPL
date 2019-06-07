@@ -7,4 +7,4 @@ class NewMusicNotesForm(forms.ModelForm):
 
     class Meta:
         model = MusicNotes
-        fields = ('title', 'viola')
+        fields = ('title', 'violin', 'viola')

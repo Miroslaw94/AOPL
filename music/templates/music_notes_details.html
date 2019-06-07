@@ -2,4 +2,13 @@
 
 {% block content %}
     <h2>{{ music_notes.title }}</h2>
+
+    <div class="list-group">
+        {% for instrument in music_notes.instruments %}
+            {% if instrument %}
+                <a href="{{ instrument.url }}" class="list-group-item list-group-item-action">{{ instrument.verbose_name }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+
 {% endblock %}

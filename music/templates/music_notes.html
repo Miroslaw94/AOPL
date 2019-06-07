@@ -10,7 +10,7 @@
 
     <div class="list-group">
         {% for music_notes in music_notes_list %}
-            <a href="{% url 'music_notes_details' pk=music_notes.pk %}" class="list-group-item">{{ music_notes.title }}</a>
+            <a href="{% url 'music_notes_details' pk=music_notes.pk %}" class="list-group-item list-group-item-action">{{ music_notes.title }}</a>
         {% endfor %}
     </div>
 
