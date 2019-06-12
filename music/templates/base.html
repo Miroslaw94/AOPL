@@ -13,6 +13,19 @@
     <div class="container-fluid">
         <h1>Akademicka Orkiestra Politechniki Łódzkiej</h1>
     </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand">
+            <img src="{% static 'logo.png' %}" width="40" height="40" class="d-inline-block align-top" alt="">
+        </a>
+            <div class="navbar-nav" id="navbarNav">
+                <a class="nav-item nav-link ml-0" href="/">Strona główna</a>
+                <a class="nav-item nav-link ml-4" href="#">Historia</a>
+                <a class="nav-item nav-link ml-4" href="#">Galeria</a>
+                <a class="nav-item nav-link ml-4" href="#">Nagrania</a>
+                <a class="nav-item nav-link ml-4" href="#">Kontakt</a>
+            </div>
+        <a class="btn btn-outline-secondary my-sm-0 ml-auto" href="" role="button">Zaloguj się</a>
+    </nav>
     {% block content %}
     {% endblock %}
 </body>
