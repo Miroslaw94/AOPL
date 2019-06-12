@@ -1,9 +1,10 @@
 from selenium import webdriver
+from django.test import LiveServerTestCase
 import unittest
 import time
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -12,14 +13,14 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.quit()
 
     def test_open_site(self):
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         self.assertIn('AOPL', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('Akademicka Orkiestra', header_text)
         self.fail('Finish the test!')
 
     def test_music_notes_site(self):
-        self.browser.get('http://localhost:8000/nuty/')
+        self.browser.get(self.live_server_url + '/nuty/')
         self.assertIn('AOPL', self.browser.title)
 
         header_text = self.browser.find_element_by_tag_name('h2').text
@@ -28,10 +29,10 @@ class NewVisitorTest(unittest.TestCase):
         button1 = self.browser.find_element_by_tag_name('input')
         button2 = self.browser.find_element_by_tag_name('form')
         self.assertEqual('Dodaj nuty', button1.get_attribute('value'))
-        self.assertEqual(button2.get_attribute('action'), 'http://localhost:8000/nuty/dodaj/')
+        self.assertEqual(button2.get_attribute('action'), self.live_server_url + '/nuty/dodaj/')
 
     def test_add_music_notes(self):
-        self.browser.get('http://localhost:8000/nuty/dodaj/')
+        self.browser.get(self.live_server_url + '/nuty/dodaj/')
         self.assertIn('AOPL', self.browser.title)
 
         name_input = self.browser.find_element_by_name('title')
@@ -48,7 +49,3 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.get(posts[0].get_attribute('href'))
         header_text = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Muppets', header_text)
-
-
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
