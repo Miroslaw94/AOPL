@@ -58,6 +58,9 @@ class NewVisitorTest(LiveServerTestCase):
         button[0].click()
         time.sleep(1)
 
+        self.browser.find_element_by_name('submit').click()
+        time.sleep(1)
+
         posts = self.browser.find_elements_by_class_name('list-group-item')
         self.assertTrue(posts[0].text, 'Muppets')
 

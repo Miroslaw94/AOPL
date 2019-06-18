@@ -12,8 +12,10 @@
         {% for music_notes in music_notes_list %}
             <a href="{% url 'music_notes_details' pk=music_notes.pk %}" class="list-group-item list-group-item-action mt-1">
                 {{ music_notes.title }}
-                <button type="button" class="btn btn-danger btn-sm ml-2" style="float:right">Usuń</button>
-                <button type="button" class="btn btn-warning btn-sm ml-2" style="float:right">Edytuj</button>
+                <form>
+                    <button type="submit" formaction="{% url 'delete_music_notes' pk=music_notes.pk %}" class="btn btn-danger btn-sm ml-2" style="float:right">Usuń</button>
+                    <button type="submit" class="btn btn-warning btn-sm ml-2" style="float:right">Edytuj</button>
+                </form>
             </a>
         {% endfor %}
     </div>
