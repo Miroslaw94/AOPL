@@ -1,5 +1,7 @@
+import os
 from django.db import models
 from django.utils import timezone
+from aopl.settings import MEDIA_ROOT
 
 
 def file_path(instance, filename):
@@ -77,3 +79,16 @@ class MusicNotes(models.Model):
                 self.cello, self.double_bass, self.flute1, self.flute2, self.oboe, self.clarinet1, self.clarinet2,
                 self.bassoon, self.saxophone1, self.saxophone2, self.horn1, self.horn2, self.trumpet1, self.trumpet2,
                 self.trombone1, self.trombone2, self.tuba]
+
+    def delete(self, *args, **kwargs):
+        instruments = [self.score, self.piano, self.percussion, self.solo_instrument, self.violin1, self.violin2, self.viola,
+                self.cello, self.double_bass, self.flute1, self.flute2, self.oboe, self.clarinet1, self.clarinet2,
+                self.bassoon, self.saxophone1, self.saxophone2, self.horn1, self.horn2, self.trumpet1, self.trumpet2,
+                self.trombone1, self.trombone2, self.tuba]
+        catalog = os.path.join(MEDIA_ROOT, self.title)
+
+        if os.path.isdir(catalog):
+            for i in instruments:
+                i.delete()
+            os.rmdir(catalog)
+        super().delete(*args, **kwargs)

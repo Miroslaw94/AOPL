@@ -4,6 +4,7 @@ import unittest
 import time
 
 from music.models import MusicNotes
+from aopl.settings import MEDIA_ROOT
 
 
 class NewVisitorTest(LiveServerTestCase):
@@ -63,6 +64,8 @@ class NewVisitorTest(LiveServerTestCase):
 
         posts = self.browser.find_elements_by_class_name('list-group-item')
         self.assertTrue(posts[0].text, 'Muppets')
+        self.assertTrue(posts[1].text, 'Waltz')
+        self.assertNotIn('Polonez', MEDIA_ROOT)
 
     def test_edit_music_notes(self):
         MusicNotes.objects.create(title='Polonez')
