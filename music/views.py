@@ -35,9 +35,11 @@ def delete_music_notes(request, pk):
 
 def edit_music_notes(request, pk):
     notes = get_object_or_404(MusicNotes, pk=pk)
+    old_title = notes.title
     if request.method == 'POST':
         form = MusicNotesForm(request.POST, request.FILES, instance=notes)
         if form.is_valid():
+            notes.edit_notes(old_title)
             post = form.save()
             post.author = request.user
             post.save()

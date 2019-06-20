@@ -9,7 +9,7 @@ def file_path(instance, filename):
 
 
 class MusicNotes(models.Model):
-    title = models.CharField(max_length=200, default='')
+    title = models.CharField(max_length=200, default='', unique=True)
 
     score = models.FileField(default='', blank=True, null=True, upload_to=file_path)
     piano = models.FileField(default='', blank=True, null=True, upload_to=file_path)
@@ -92,3 +92,8 @@ class MusicNotes(models.Model):
                 i.delete()
             os.rmdir(catalog)
         super().delete(*args, **kwargs)
+
+    def edit_notes(self, old_name):
+        old_catalog = os.path.join(MEDIA_ROOT, old_name)
+        new_catalog = os.path.join(MEDIA_ROOT, self.title)
+        os.rename(old_catalog, new_catalog)
