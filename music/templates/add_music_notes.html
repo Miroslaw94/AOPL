@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Dodaj nuty</h2>
+<h2>Edytuj nuty</h2>
     <form method="POST" class="post-form" action="" enctype="multipart/form-data">{% csrf_token %}
         {{ form.as_p }}
         <input name="submit" type="submit">

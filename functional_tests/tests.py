@@ -76,9 +76,11 @@ class NewVisitorTest(LiveServerTestCase):
         time.sleep(1)
 
         name_input = self.browser.find_element_by_name('title')
+        name_input.clear()
         name_input.send_keys('Muppets')
         self.browser.find_element_by_name('submit').click()
         time.sleep(1)
 
         post = self.browser.find_element_by_class_name('list-group-item')
         self.assertTrue(post.text, 'Muppets')
+        time.sleep(4)

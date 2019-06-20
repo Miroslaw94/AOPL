@@ -7,5 +7,6 @@ urlpatterns = [
     path('nuty/', views.music_notes, name='music_notes'),
     path('nuty/dodaj/', views.add_music_notes, name='add_music_notes'),
     path('nuty/<int:pk>/', views.music_notes_details, name='music_notes_details'),
-    path('nuty/usun/<int:pk>/', views.delete_music_notes, name='delete_music_notes')
+    path('nuty/usun/<int:pk>/', views.delete_music_notes, name='delete_music_notes'),
+    path('nuty/dodaj/<int:pk>/', views.edit_music_notes, name='edit_music_notes')
 ]
