@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 style="text-align:center">Zaloguj się</h2>
+    <div style="text-align:center">
+
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+
+        <form method="post" action="{% url 'login_user' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+            <div class="form-group">
+                <input id="id_username" name="username" class="form-control w-25" type="text" placeholder="Nazwa użytkownika" style="margin: auto">
+            </div>
+            <div class="form-group">
+                <input id="id_password" name="password" class="form-control w-25" type="password" placeholder="Hasło" style="margin: auto">
+            </div>
+            <div class="form-group">
+                <button type="submit" name="submit" class="btn btn-primary">Zaloguj się</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

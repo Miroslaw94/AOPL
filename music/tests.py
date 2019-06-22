@@ -1,10 +1,13 @@
-import os
 from django.test import TestCase
 from music.models import MusicNotes
-from aopl.settings import MEDIA_ROOT
+from django.contrib.auth.models import User
 
 
 class PageTest(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_superuser(username='test', email='test@test.com', password='qwerty')
+        self.client.force_login(self.user)
 
     def test_uses_home_template(self):
         response = self.client.get('/')
@@ -39,8 +42,23 @@ class PageTest(TestCase):
         self.assertIn('nr1', response.content.decode())
         self.assertIn('nr2', response.content.decode())
 
+    def test_limited_access_to_part_of_site(self):
+        response = self.client.get('/nuty/')
+        self.assertEqual(response.status_code, 200)
+
+        self.client.logout()
+
+        response = self.client.get('/nuty/')
+        self.assertEqual(response.status_code, 302)
+        self.assertNotIn('Nuty', response.content.decode())
+        self.assertTemplateNotUsed(response, 'music_notes.html')
+
 
 class MusicNotesModelTest(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_superuser(username='test', email='test@test.com', password='qwerty')
+        self.client.force_login(self.user)
 
     def test_saving_and_retrieving_items(self):
         item1 = MusicNotes()

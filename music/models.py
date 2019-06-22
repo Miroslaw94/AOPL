@@ -96,4 +96,5 @@ class MusicNotes(models.Model):
     def edit_notes(self, old_name):
         old_catalog = os.path.join(MEDIA_ROOT, old_name)
         new_catalog = os.path.join(MEDIA_ROOT, self.title)
-        os.rename(old_catalog, new_catalog)
+        if os.path.isdir(old_catalog):
+            os.rename(old_catalog, new_catalog)
