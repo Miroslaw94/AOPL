@@ -3,19 +3,22 @@
 {% block content %}
 
     <h2>Nuty</h2>
-
-    <form action="dodaj/">
-        <input type="submit" value="Dodaj nuty" />
-    </form>
+    {% if user.is_staff %}
+        <form action="dodaj/">
+            <button type="submit" name="submit" class="btn btn-primary">Dodaj nuty</button>
+        </form>
+    {% endif %}
 
     <div class="list-group">
         {% for music_notes in music_notes_list %}
             <a href="{% url 'music_notes_details' pk=music_notes.pk %}" class="list-group-item list-group-item-action mt-1">
                 {{ music_notes.title }}
-                <form>
-                    <button type="submit" formaction="{% url 'delete_music_notes' pk=music_notes.pk %}" class="btn btn-danger btn-sm ml-2" style="float:right">Usuń</button>
-                    <button type="submit" formaction="{% url 'edit_music_notes' pk=music_notes.pk %}" class="btn btn-warning btn-sm ml-2" style="float:right">Edytuj</button>
-                </form>
+                {% if user.is_staff %}
+                    <form>
+                        <button type="submit" formaction="{% url 'delete_music_notes' pk=music_notes.pk %}" class="btn btn-danger btn-sm ml-2" style="float:right">Usuń</button>
+                        <button type="submit" formaction="{% url 'edit_music_notes' pk=music_notes.pk %}" class="btn btn-warning btn-sm ml-2" style="float:right">Edytuj</button>
+                    </form>
+                {% endif %}
             </a>
         {% endfor %}
     </div>

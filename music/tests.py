@@ -3,10 +3,10 @@ from music.models import MusicNotes
 from django.contrib.auth.models import User
 
 
-class PageTest(TestCase):
+class PageTestNormalUser(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_superuser(username='test', email='test@test.com', password='qwerty')
+        self.user = User.objects.create_user(username='test', email='test@test.com', password='qwerty')
         self.client.force_login(self.user)
 
     def test_uses_home_template(self):
@@ -16,6 +16,38 @@ class PageTest(TestCase):
     def test_uses_music_notes_template(self):
         response = self.client.get('/nuty/')
         self.assertTemplateUsed(response, 'music_notes.html')
+
+    def test_displays_all_list_items(self):
+        MusicNotes.objects.create(title='nr1')
+        MusicNotes.objects.create(title='nr2')
+
+        response = self.client.get('/nuty/')
+
+        self.assertIn('nr1', response.content.decode())
+        self.assertIn('nr2', response.content.decode())
+
+    def test_limited_access_if_logout(self):
+        response = self.client.get('/nuty/')
+        self.assertEqual(response.status_code, 200)
+
+        self.client.logout()
+
+        response = self.client.get('/nuty/')
+        self.assertEqual(response.status_code, 302)
+        self.assertNotIn('Nuty', response.content.decode())
+        self.assertTemplateNotUsed(response, 'music_notes.html')
+
+    def test_limited_access_if_not_staff(self):
+        response = self.client.get('/nuty/dodaj/')
+        self.assertEqual(response.status_code, 302)
+        self.assertNotIn('Nuty', response.content.decode())
+
+
+class PageTestStaffUser(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_superuser(username='test', email='test@test.com', password='qwerty')
+        self.client.force_login(self.user)
 
     def test_uses_add_music_notes_template(self):
         response = self.client.get('/nuty/dodaj/')
@@ -32,26 +64,6 @@ class PageTest(TestCase):
         response = self.client.post('/nuty/dodaj/', data={'title': 'Test_item'})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/nuty/')
-
-    def test_displays_all_list_items(self):
-        MusicNotes.objects.create(title='nr1')
-        MusicNotes.objects.create(title='nr2')
-
-        response = self.client.get('/nuty/')
-
-        self.assertIn('nr1', response.content.decode())
-        self.assertIn('nr2', response.content.decode())
-
-    def test_limited_access_to_part_of_site(self):
-        response = self.client.get('/nuty/')
-        self.assertEqual(response.status_code, 200)
-
-        self.client.logout()
-
-        response = self.client.get('/nuty/')
-        self.assertEqual(response.status_code, 302)
-        self.assertNotIn('Nuty', response.content.decode())
-        self.assertTemplateNotUsed(response, 'music_notes.html')
 
 
 class MusicNotesModelTest(TestCase):

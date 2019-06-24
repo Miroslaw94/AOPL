@@ -11,7 +11,7 @@ class FunctionsTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
-        User.objects.create_superuser(username='test', email='test@test.com', password='qwerty')
+        User.objects.create_user(username='test', email='test@test.com', password='qwerty')
 
         self.browser.get(self.live_server_url + '/login/')
         username_input = self.browser.find_element_by_name('username')
@@ -34,10 +34,36 @@ class FunctionsTest(LiveServerTestCase):
         header_text = self.browser.find_element_by_tag_name('h2').text
         self.assertIn('Nuty', header_text)
 
-        button1 = self.browser.find_element_by_tag_name('input')
-        button2 = self.browser.find_element_by_tag_name('form')
-        self.assertEqual('Dodaj nuty', button1.get_attribute('value'))
-        self.assertEqual(button2.get_attribute('action'), self.live_server_url + '/nuty/dodaj/')
+    def test_parts_only_for_users(self):
+        self.browser.get(self.live_server_url + '/logout/')
+        navbar_items = self.browser.find_elements_by_class_name('nav-item')
+        for item in navbar_items:
+            self.assertNotEqual('Nuty', item.text)
+
+        self.browser.get(self.live_server_url + '/nuty/')
+        self.assertEqual(self.live_server_url + '/login/?next=/nuty/', self.browser.current_url)
+
+    def test_staff_functions_invisible_for_normal_users(self):
+        self.browser.get(self.live_server_url + '/nuty/')
+        buttons = self.browser.find_elements_by_tag_name('button')
+        self.assertEqual(len(buttons), 0)
+
+
+class StaffUserFunctionsTest(LiveServerTestCase):
+
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+        User.objects.create_superuser(username='test', email='test@test.com', password='qwerty')
+
+        self.browser.get(self.live_server_url + '/login/')
+        username_input = self.browser.find_element_by_name('username')
+        username_input.send_keys('test')
+        password_input = self.browser.find_element_by_name('password')
+        password_input.send_keys('qwerty')
+        self.browser.find_element_by_name('submit').click()
+
+    def tearDown(self):
+        self.browser.quit()
 
     def test_add_music_notes(self):
         self.browser.get(self.live_server_url + '/nuty/dodaj/')
@@ -92,14 +118,11 @@ class FunctionsTest(LiveServerTestCase):
         post = self.browser.find_element_by_class_name('list-group-item')
         self.assertIn('New_title', post.text)
 
-    def test_parts_only_for_users(self):
+    def test_parts_only_for_staff_users(self):
         self.browser.get(self.live_server_url + '/logout/')
         navbar_items = self.browser.find_elements_by_class_name('nav-item')
         for item in navbar_items:
             self.assertNotEqual('Nuty', item.text)
-
-        self.browser.get(self.live_server_url + '/nuty/')
-        self.assertEqual(self.live_server_url + '/login/?next=/nuty/', self.browser.current_url)
 
         self.browser.get(self.live_server_url + '/nuty/dodaj/')
         self.assertEqual(self.live_server_url + '/login/?next=/nuty/dodaj/', self.browser.current_url)

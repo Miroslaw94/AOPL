@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import MusicNotes
 from .forms import MusicNotesForm
 
@@ -18,6 +18,7 @@ def music_notes_details(request, pk):
     notes = get_object_or_404(MusicNotes, pk=pk)
     return render(request, 'music_notes_details.html', {'music_notes': notes})
 
+@user_passes_test(lambda u: u.is_staff, login_url='/login/')
 @login_required(login_url='/login/')
 def add_music_notes(request):
     if request.method == 'POST':
@@ -31,6 +32,7 @@ def add_music_notes(request):
         form = MusicNotesForm()
     return render(request, 'add_music_notes.html', {'form': form})
 
+@user_passes_test(lambda u: u.is_staff, login_url='/login/')
 @login_required(login_url='/login/')
 def delete_music_notes(request, pk):
     notes = get_object_or_404(MusicNotes, pk=pk)
@@ -39,6 +41,7 @@ def delete_music_notes(request, pk):
         return redirect('music_notes')
     return render(request, 'delete_music_notes.html', {'music_notes': notes})
 
+@user_passes_test(lambda u: u.is_staff, login_url='/login/')
 @login_required(login_url='/login/')
 def edit_music_notes(request, pk):
     notes = get_object_or_404(MusicNotes, pk=pk)
